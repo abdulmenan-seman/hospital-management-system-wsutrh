@@ -1,0 +1,63 @@
+// filepath: c:\xampp\htdocs\Hospital_Management_System\signup-doctor.php
+<?php 
+require_once "importance.php"; 
+
+if(User::loggedIn()){
+    Config::redir("index.php"); 
+}
+?> 
+
+<html>
+<head>
+    <title>Signup - Doctor - <?php echo CONFIG::SYSTEM_NAME; ?></title>
+    <?php require_once "inc/head.inc.php";  ?> 
+</head>
+<body>
+    <?php require_once "inc/header.inc.php"; ?> 
+    <div class='container-fluid'>
+        <div class='row'>
+            <div class='col-md-2'><?php require_once "inc/sidebar.inc.php"; ?></div> 
+            <div class='col-md-7'>
+                <div class='content-area'> 
+                    <div class='content-header'> 
+                        Signup - Doctor <small>Create a new doctor account</small>
+                    </div>
+                    <div class='content-body'> 
+                        <div class='form-holder'>
+                            <?php 
+                            if(isset($_POST['fn'])){
+                                $firstName = $_POST['fn'];
+                                $secondName = $_POST['sn'];
+                                $email = $_POST['email'];
+                                $phone = $_POST['phone'];
+                                $password = $_POST['password'];
+                                $role = $_POST['role'];
+                                $gender = $_POST['gender'];
+
+                                // Call the function to register the doctor
+                                Doctor::register($firstName, $secondName, $email, $phone, $password, $role, $gender);
+                            }
+
+                            $form = new Form(3, "post");
+                            $form->init(); 
+                            $form->textBox("First Name", "fn", "text", "", "");
+                            $form->textBox("Second Name", "sn", "text", "", "");
+                            $form->textBox("Email", "email", "email", "", "");
+                            $form->textBox("Phone", "phone", "text", "", "");
+                            $form->textBox("Password", "password", "password", "", "");
+                            $form->select("Role", "role", ["Doctor", "Surgeon", "Specialist"], "");
+                            $form->select("Gender", "gender", ["Male", "Female", "Other"], "");
+                            $form->close("Signup");
+                            ?> 
+                        </div> 
+                    </div><!-- end of the content area --> 
+                </div> 
+            </div><!-- col-md-7 --> 
+
+            <div class='col-md-3'>
+                <img src='images/doc-background-one.png' class='img-responsive' /> 
+            </div> 
+        </div> 
+    </div> 
+</body>
+</html>
